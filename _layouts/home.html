@@ -1,0 +1,102 @@
+---
+title: Home
+pagination:
+enabled: true
+---
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MOVIES KINGDOM</title>
+  <meta name='description' content='Calipse modern magazine theme for Jekyll'>
+  <link rel="canonical" href="index.html">
+  <link rel="alternate" type="application/rss+xml" title="Calipse" href="feed.xml">
+  <!-- Ionicons -->
+  <link href="https://unpkg.com/ionicons@4.5.0/dist/css/ionicons.min.css" rel="stylesheet">
+  <link href="{{ site.url }}/assets/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- begin header -->
+  {% include header.html %}
+  <!-- end search -->
+  <div class="site-cover">
+    <div class="site-cover__image">
+      <img class="lazy" data-src="https://calipse-dark.netlify.app/images/bg.jpg" alt="">
+    </div>
+  </div>
+  <!-- begin content -->
+  <main class="content" aria-label="Content">
+    <!-- begin hero -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero__inner">
+          <h1 class="hero__title">Our Collection</h1>
+        </div>
+      </div>
+    </section>
+    <!-- end hero -->
+    <!-- begin featured post -->
+    <section class="f-post">
+      <div class="container">
+        <div class="row animate">
+          {% for item in paginator.posts %}
+          <div class="article col col-2 col-m-6 col-t-12">
+            <div class="inner">
+              <span class="f-post">{{ item.genre }}</span>
+              <a class="a_image" href="{{ site.url }}{{ item.url }}">
+                <div class="m-img image-cover-js" data-accent="#6123E4"></div>
+                <img class="lazy" data-src="{{ item.img }}" alt="{{ item.title }}">
+              </a>
+              <div class="a_content">
+                <h2 class="a_title">
+                  <a href="{{ site.url }}{{ item.url }}">{{ item.title }}</a>
+                </h2>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <!-- end featured post -->
+    <!-- begin pagination -->
+
+
+    <nav class="pagination animate">
+      <div class="container">
+        <div class="pagination__list">
+          {% assign alphabet = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,#" | split: "," %}
+          {% for letter in alphabet %}
+          <a class="count-number" href="/az-list/{{ letter | downcase }}">{{ letter }}</a>
+          {% endfor %}
+        </div>
+      </div>
+    </nav>
+    <!-- end pagination -->
+  </main>
+  <!-- end content -->
+  <div class="top" title="Top"><i class="ion ion-ios-arrow-up"></i></div>
+  <!-- begin footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col col-12">
+          <div class="footer__inner">
+            <div class="copyright">2023 &copy; <a href="">Movies Kingdom</a>. Crafted & Designed by <a href="">Rizwan
+                Shaikh</a>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- end footer -->
+  <script src="{{ site.url }}//assets/js/scripts.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,153 @@
+---
+title: next
+---
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title }}</title>
+    <meta name='description' content='Calipse modern magazine theme for Jekyll'>
+    <link rel="canonical" href="index.html">
+    <link rel="alternate" type="application/rss+xml" title="Calipse" href="feed.xml">
+    <!-- Ionicons -->
+    <link href="https://unpkg.com/ionicons@4.5.0/dist/css/ionicons.min.css" rel="stylesheet">
+    <link href="{{ site.url }}/assets/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- begin header -->
+    {% include header.html %}
+    <!-- end search -->
+    <div class="site-cover">
+        <div class="site-cover__image">
+            <img class="lazy" data-src="https://calipse-dark.netlify.app/images/bg.jpg">
+        </div>
+    </div>
+    <!-- begin content -->
+    <main class="content" aria-label="Content">
+        <!-- begin hero -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero__inner">
+                    <h1 class="hero__title">{{ page.title }}</h1>
+                </div>
+            </div>
+        </section>
+        <!-- end hero -->
+        <!-- begin featured post -->
+        <section class="f-post">
+            <div class="container">
+                <div id="main-div" class="row animate articles-container"></div>
+            </div>
+        </section>
+        <nav class="pagination animate">
+            <div class="container">
+                <div class="pagination__list" id="pagination"></div>
+            </div>
+        </nav>
+    </main>
+    <!-- end content -->
+    <div class="top" title="Top"><i class="ion ion-ios-arrow-up"></i></div>
+    <!-- begin footer -->
+    {% include footer.html %}
+    <!-- end footer -->
+    <script>
+        // Function to generate pagination links
+        function generatePagination(currentPage, totalPages) {
+            const paginationDiv = document.getElementById('pagination');
+            paginationDiv.innerHTML = '';
+    
+            const range = 3;
+    
+            if (currentPage > 1) {
+                addPageLink(paginationDiv, currentPage - 1, `<i class="ion ion-ios-arrow-back"></i>`);
+            }
+    
+            for (let i = Math.max(1, currentPage - range); i <= Math.min(totalPages, currentPage + range); i++) {
+                if (i === currentPage) {
+                    addPageLink(paginationDiv, i, i, 'active-link');
+                } else {
+                    addPageLink(paginationDiv, i, i, 'mdn');
+                }
+            }
+    
+            if (currentPage < totalPages) {
+                addPageLink(paginationDiv, currentPage + 1, `<i class="ion ion-ios-arrow-forward"></i>`);
+            }
+        }
+    
+        function addPageLink(container, page, content, className = '') {
+            const pageLink = document.createElement('a');
+            pageLink.className = `count-number ${className}`;
+            pageLink.href = `javascript:void(0);`;
+            pageLink.addEventListener('click', () => fetchData(page));
+            pageLink.innerHTML = content;
+            container.appendChild(pageLink);
+        }
+    
+        async function fetchData(page) {
+            try {
+                const response = await fetch(`{{ site.url }}/api/{{ page.api }}/${page}.json`);
+                const data = await response.json();
+    
+                if (Array.isArray(data) && data.length === 3) {
+                    const currentPage = data[0];
+                    const totalPages = data[1];
+                    const items = data[2];
+    
+                    if (currentPage == page) {
+                        const mainDiv = document.getElementById('main-div');
+                        mainDiv.innerHTML = '';
+    
+                        items.forEach(item => {
+                            const articleDiv = document.createElement('div');
+                            articleDiv.className = 'article col col-2 col-m-6 col-t-12';
+                            articleDiv.innerHTML = `
+                                    <div class="inner">
+                                        <span class="f-post">${item[3]}</span>
+                                        <a class="a_image" href="{{ site.url }}/${item[0].toLowerCase().split(' ').join('-')}">
+                                            <img src="${item[1]}">
+                                            <div class="overlay"></div>
+                                        </a>
+                                        <div class="a_content">
+                                            <h2 class="a_title">
+                                                <a href="{{ site.url }}/${item[0].toLowerCase().split(' ').join('-')}">${item[0]}</a>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                `;
+                            mainDiv.appendChild(articleDiv);
+                        });
+    
+                        window.history.pushState({}, '', `?p=${currentPage}`);
+    
+                        window.scrollTo(0, 0);
+    
+                        generatePagination(currentPage, totalPages);
+                    } else {
+                        console.error('Invalid data format or page mismatch');
+                    }
+                } else {
+                    console.error('Invalid data format');
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+    
+        const urlParams = new URLSearchParams(window.location.search);
+        let pageParam = urlParams.get('p');
+    
+        if (!pageParam || isNaN(pageParam)) {
+            pageParam = 1;
+        }
+    
+        fetchData(pageParam);
+    </script>
+    <script src="{{ site.url }}/assets/js/scripts.js"></script>
+</body>
+
+</html>

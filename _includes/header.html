@@ -1,0 +1,62 @@
+<header class="header" id="top">
+    <div class="container-big">
+        <div class="row">
+            <div class="header__inner col col-12">
+                <div class="logo">
+                    <a class="logo__link" href="{{ site.url }}">{{ site.title }}</a>
+                </div>
+                <nav class="main-nav">
+                    <div class="main-nav__box">
+                        <div class="nav__icon-close">
+                            <i class="ion ion-md-close"></i>
+                        </div>
+                        <div class="nav__title">Menu</div>
+                        <ul class="nav__list list-reset">
+                            <li class="nav__item">
+                                <a href="{{ site.url }}" class="nav__link active-link">All Movies</a>
+                            </li>
+                            <li class="nav__item"><a href="{{ site.url}}/bollywood/" class="nav__link">Bollywood</a>
+                            </li>
+                            <li class="nav__item"><a href="{{ site.url}}/hollywood/" class="nav__link">Hollywood</a>
+                            </li>
+                            <li class="nav__item dropdown">
+                                <span class="nav__link dropdown-toggle">Pages <i
+                                        class="ion ion-ios-arrow-down arrow-down"></i></span>
+                                <div class="dropdown-menu">
+                                    <a href="{{ site.url}}/p/genre/" class="nav__link">Genre</a>
+                                    <a href="{{ site.url}}/p/tag/" class="nav__link">Tag</a>
+                                    <a href="{{ site.url}}/p/category" class="nav__link">Category</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="nav-button">
+                    <i class="nav__icon icon__menu ion ion-md-menu"></i>
+                    <i class="nav__icon icon__search ion ion-md-search"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- end header -->
+<!-- begin search -->
+<div class="search">
+    <div class="container">
+        <div class="row">
+            <div class="col col-12">
+                <div class="search__box">
+                    <div class="search__close">
+                        <i class="ion ion-md-close"></i>
+                    </div>
+                    <div class="search__group">
+                        <label for="js-search-input" class="screen-reader-text">Search</label>
+                        <input type="text" id="js-search-input" class="search__text" autocomplete="off"
+                            placeholder="Type to search...">
+                    </div>
+                    <div class="search-results-list" id="js-results-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
