@@ -1,6 +1,6 @@
 title: MoviesFLIX
 baseurl: ""
-url: "http://localhost:4000"
+url: "https://imrznx.github.io"
 
 plugins:
   - jekyll-feed
