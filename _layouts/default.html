@@ -60,7 +60,17 @@ title: next
             const paginationDiv = document.getElementById('pagination');
             paginationDiv.innerHTML = '';
 
-            const range = 3;
+            // const range = 2;
+            let range;
+            if (window.innerWidth > 1024) {
+                range = 8;
+            } else if (window.innerWidth <= 1024 && window.innerWidth > 886) {
+                range = 6;
+            } else if (window.innerWidth <= 886 && window.innerWidth > 656) {
+                range = 4;
+            } else {
+                range = 2;
+            }
 
             // Add link to go to the first page
             addPageLink(paginationDiv, 1, `<i class="ion ion-ios-arrow-back"></i><i class="ion ion-ios-arrow-back"></i>`);
@@ -111,7 +121,7 @@ title: next
 
                         items.forEach(item => {
                             const articleDiv = document.createElement('div');
-                            articleDiv.className = 'article col col-2 col-m-6 col-t-12';
+                            articleDiv.className = 'article col col-2 col-m-6 col-d-3';
                             articleDiv.innerHTML = `
                                     <div class="inner">
                                         <span class="f-post">${item[3]}</span>
