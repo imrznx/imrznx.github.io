@@ -59,16 +59,13 @@ title: next
         function generatePagination(currentPage, totalPages) {
             const paginationDiv = document.getElementById('pagination');
             paginationDiv.innerHTML = '';
-
+    
             const range = 3;
-
-            // Add link to go to the first page
-            addPageLink(paginationDiv, 1, `<i class="ion ion-ios-arrow-back"></i><i class="ion ion-ios-arrow-back"></i>`);
-
+    
             if (currentPage > 1) {
-                addPageLink(paginationDiv, currentPage - 1, `<i class="ion ion-ios-arrow-back"></i>`);
+                addPageLink(paginationDiv, currentPage - 1, `<i class="ion ion-ios-arrow-back"></i><i class="ion ion-ios-arrow-back"></i>`);
             }
-
+    
             for (let i = Math.max(1, currentPage - range); i <= Math.min(totalPages, currentPage + range); i++) {
                 if (i === currentPage) {
                     addPageLink(paginationDiv, i, i, 'active-link');
@@ -76,16 +73,12 @@ title: next
                     addPageLink(paginationDiv, i, i, 'mdn');
                 }
             }
-
+    
             if (currentPage < totalPages) {
-                addPageLink(paginationDiv, currentPage + 1, `<i class="ion ion-ios-arrow-forward"></i>`);
+                addPageLink(paginationDiv, currentPage + 1, `<i class="ion ion-ios-arrow-forward"></i><i class="ion ion-ios-arrow-forward"></i>`);
             }
-
-            // Add link to go to the last page
-            addPageLink(paginationDiv, totalPages, `<i class="ion ion-ios-arrow-forward"></i><i class="ion ion-ios-arrow-forward"></i>`);
         }
-
-
+    
         function addPageLink(container, page, content, className = '') {
             const pageLink = document.createElement('a');
             pageLink.className = `count-number ${className}`;
@@ -94,21 +87,21 @@ title: next
             pageLink.innerHTML = content;
             container.appendChild(pageLink);
         }
-
+    
         async function fetchData(page) {
             try {
                 const response = await fetch(`{{ site.url }}/api/{{ page.api }}/${page}.json`);
                 const data = await response.json();
-
+    
                 if (Array.isArray(data) && data.length === 3) {
                     const currentPage = data[0];
                     const totalPages = data[1];
                     const items = data[2];
-
+    
                     if (currentPage == page) {
                         const mainDiv = document.getElementById('main-div');
                         mainDiv.innerHTML = '';
-
+    
                         items.forEach(item => {
                             const articleDiv = document.createElement('div');
                             articleDiv.className = 'article col col-2 col-m-6 col-t-12';
@@ -128,11 +121,11 @@ title: next
                                 `;
                             mainDiv.appendChild(articleDiv);
                         });
-
+    
                         window.history.pushState({}, '', `?p=${currentPage}`);
-
+    
                         window.scrollTo(0, 0);
-
+    
                         generatePagination(currentPage, totalPages);
                     } else {
                         console.error('Invalid data format or page mismatch');
@@ -144,14 +137,14 @@ title: next
                 console.error('Error fetching data:', error);
             }
         }
-
+    
         const urlParams = new URLSearchParams(window.location.search);
         let pageParam = urlParams.get('p');
-
+    
         if (!pageParam || isNaN(pageParam)) {
             pageParam = 1;
         }
-
+    
         fetchData(pageParam);
     </script>
     <script src="{{ site.url }}/assets/js/scripts.js"></script>
